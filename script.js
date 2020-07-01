@@ -13,12 +13,14 @@ $(document).ready(function () {
     var address = "120 sproul hall Berkeley CA 94704"
 
     // Election ID can be obtained from eletion query response, and be fed into voter query
-    var electionId = 4973;
+    var electionId = 2000;
     // Returns list of available elections.
+    // https://www.googleapis.com/civicinfo/v2/elections
+    // We want Tuesday November 3, 2020
     var electionURL = `https://www.googleapis.com/civicinfo/v2/elections?key=${APIKey}`;
 
     // Returns polling places (if included). contest and cadidate information, and election official information.
-    var voterURL = `https://www.googleapis.com/civicinfo/v2/voterinfo?address=${address}&key=${APIKey}&officialOnly=true&returnAllAvailableData=true&electionId=${electionId}`;
+    var voterURL = `https://www.googleapis.com/civicinfo/v2/voterinfo?address=${address}&key=${APIKey}&returnAllAvailableData=true&electionId=${electionId}`;
 
 
     // Looks up political geography and representative information for a single address
