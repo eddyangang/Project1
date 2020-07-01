@@ -1,1 +1,18 @@
-/* joel  */
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+img{
+    margin: 1rem;
+}
+
+section {
+    margin-top: 1rem;
+}
+#menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
