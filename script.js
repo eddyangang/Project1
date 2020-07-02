@@ -17,21 +17,6 @@ var representativesInfoByAddressURL = `https://www.googleapis.com/civicinfo/v2/r
 $(document).ready(function () {
 
 
-<<<<<<< HEAD
-    // Example Address
-    // var address = "1263 Pacific Ave. Kansas City KS";
-  //  var address = "120 sproul hall Berkeley CA 94704"
-  //var address="27009"
-  var address="73008"
-
-    // Election ID can be obtained from eletion query response, and be fed into voter query
-    var electionId = 2000;
-    // Returns list of available elections.
-    var electionURL = `https://www.googleapis.com/civicinfo/v2/elections?key=${APIKey}`;
-
-    // Returns polling places (if included). contest and cadidate information, and election official information.
-    var voterURL = `https://www.googleapis.com/civicinfo/v2/voterinfo?address=${address}&key=${APIKey}&returnAllAvailableData=true&electionId=${electionId}`;
-=======
 
     // $('#btn').on("click", function () {y
     //     $.ajax({
@@ -44,7 +29,6 @@ $(document).ready(function () {
     //     }).then(function (response) {
 
     //         console.log(response);
->>>>>>> 79a854d138732635c34fa08c1413e26d2d073a03
 
     //     })
     // })
