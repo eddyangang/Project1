@@ -7,12 +7,14 @@ var proPublicaMembersURL = `https://api.propublica.org/congress/v1/116/senate/me
 
 var proPublicaStatementsByMembers = `https://api.propublica.org/congress/v1/members/C001084/statements/115.json`
 
-var electionId = 2000;
-var address = "94806"
+var electionId = "2000";
+var address ="";
 
 
 var electionURL = `https://www.googleapis.com/civicinfo/v2/elections?key=${civicKey}`;
+
 var voterURL = `https://www.googleapis.com/civicinfo/v2/voterinfo?key=${civicKey}&address=${address}&electionId=${electionId}&returnAllAvailableData=true`
+
 var representativesInfoByAddressURL = `https://www.googleapis.com/civicinfo/v2/representatives?key=${civicKey}&address=${address}`
 $(document).ready(function () {
 
@@ -34,6 +36,14 @@ $(document).ready(function () {
     // })
 
     $('#search').on("click", function () {
+        $('#results').empty()
+        var state = $('#state').val();
+        var homeAddress = $('#address').val();
+        var zip = $('#zip').val();
+
+        address = `${homeAddress} ${zip} ${state}`
+
+        representativesInfoByAddressURL = `https://www.googleapis.com/civicinfo/v2/representatives?key=${civicKey}&address=${address}`
 
         $.ajax({
             url: representativesInfoByAddressURL,
@@ -45,27 +55,53 @@ $(document).ready(function () {
             var officials = response.officials;
             console.log(officials);
 
-            for (let i = 0; i < officials.length; i++) {
+            for (let i = 0; i < 5; i++) {
 
                 var name = response.officials[i].name;
                 var party = response.officials[i].party;
                 var photo = response.officials[i].photoUrl;
 
-                var card = (`
-                <div class="row" id="${i}">
-                <img>
-                <section>
-                    <h3></h2>
-                    <h4></h3>
-                </section>
-                </div>`)
+                if(name === "Mike Pence"){
+                    continue;
+                }
 
+                var card = $(
+                    `<div class="card-flip-container">
+                        <div class="card-flip" id=${i}>
+                            <div class="frontcard">
+                                <img width="100%" height="100%">     
+                                <h3></h3>
+                            </div>
+                            <div class="backcard">
+                                <h3></h3>
+                            </div>
+                        </div>
+                    </div>`)
+
+                /* To add media icons:
+                <a><i class="twitter icon"></i></a>
+                <a><i class="facebook square icon"></i></a>
+                <a><i class="youtube icon"></i></a>*/
 
                 $('#results').append(card)
-                $(`#${i}>section>h3`).text(name)
-                $(`#${i}>section>h4`).text(party)
-                $(`#${i}>img`).attr("src", photo)
-                $(`#${i}>img`).addClass("ui small circular image bordered")
+
+                $(`#${i}>.frontcard>h3`).text(name)
+
+                if (photo) {
+                    $(`#${i}>.frontcard>img`).attr("src", photo)
+                } else {
+                    $(`#${i}>.frontcard>img`).attr("src", "assets/unknown.png")
+                }
+
+                if (party === "Republican Party") {
+                    $(`#${i}>.backcard`).addClass("red")
+                } else if (party === "Democratic Party") {
+                    $(`#${i}>.backcard`).addClass("blue")
+                } else {
+                    $(`#${i}>.backcard`).addClass("unknown")
+                }
+
+                $(`#${i}>.backcard>h3`).text(party)
 
 
             }
@@ -85,9 +121,9 @@ $(document).ready(function () {
 
             for (let i = 0; i < contests.length; i++) {
 
-                const office = contests[i].office;
+                var office = contests[i].office;
 
-                const candidates = contests[i].candidates;
+                var candidates = contests[i].candidates;
 
                 var id = office.replace(/\s+/g, '');
 
@@ -159,17 +195,10 @@ $(document).ready(function () {
                 $(`#${i}>h4`).text(party)
                 $(`#${i}>img`).attr("src", photo)
 
-
             }
-
         })
     })
-
-
-
 })
-
-
 
 $('#menu').on("click", function () {
     $('.ui.sidebar').sidebar('toggle');
