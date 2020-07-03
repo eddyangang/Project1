@@ -242,3 +242,8 @@ $('#menu').on("click", function () {
 })
 $('.menu .item')
     .tab();
+
+    // click listenter to transistion the cube animation
+    $('.shape').on("click", function() {
+        $('.shape').shape('flip up');
+    })

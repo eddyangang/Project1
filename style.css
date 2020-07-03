@@ -1,3 +1,12 @@
+.ui.div.side {
+    background-color: lightsalmon;
+}
+
+
+.sides {
+    background-color: darkorchid;
+}
+
 .row {
     display: flex;
     flex-direction: row;
