@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <link rel="stylesheet" href="style.css">
-    <title>semantic</title>
+    <title>Udecide</title>
 </head>
 
 <body>
@@ -40,39 +40,62 @@
 
                 <img src="assets/politicalBird.png" class="ui tiny circular image centered bordered" alt="">
             </div>
+            <div class="eight wide column">
+                <div class="ui segment">
+                    <div class="ui cube shape"> 
+                        <div class="sides">
+                          <div class="side" style="background-color: lavender">
+                            <div class="content">
+                              <div class="center">
+                                <h6>Nov 3, 2020 will go down in US history as a pivotal choice for the direction of the country. Do you know who you're choosing between? We can tell you!
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="side" style="background-color: lavender">
+                            <div class="content">
+                              <div class="center">
+                                <h6>“Whenever the people are well informed, they can be trusted with their own government.” 
+                                </h6>
+                                <h4>- Thomas Jefferson</h4>
+
+                              </div>
+                            </div>
+                          </div>
+                          <div class="side" style="background-color: lavender">
+                            <div class="content">
+                              <div class="center">
+                                <h6>More then just the Presidency is decided on Nov 3, 2020. Thirty five Senators will be choosen. Along with 435 Representatives! <br> <br>Each branch determines if your values are represented within the government. Hold these people accountable! </h6>
+                                
+                                
+                              </div>
+                            </div>
+                          </div>
+                          <div class="side active" style="background-color: lavender">
+                            <div class="content">
+                              <div class="center">
+                                <h6>We provide a single pane of glass for voters to find their four Federal reprentatives (President, two Senators, and one House member). Click here for more background information.
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                </div>
+            </div>
+            
 
             <!-- Site content !-->
             <div class="ui top attached tabular menu">
-                <a class="item active" data-tab="first">About</a>
-                <a class="item" data-tab="second">Search</a>
+                <a class="item active" data-tab="first">Find Your Rep</a>
+                <a class="item" data-tab="second">"The California Problem"</a>
             </div>
             <div class="ui bottom attached tab segment active" data-tab="first">
 
-                <main class="container w">
-                    <div class="ui equal width grid">
-                        <div class="column">
-                            <div class="ui segment">
-                                <h3 class="ui header centered">Why it Matters</h3>
-                            </div>
-                        </div>
-                        <div class="eight wide column">
-                            <div class="ui segment">
-                                <h1 class="ui header centered">Motivation</h1>
-                                <h3 class="ui header"> Additional information</h3>
-                                <p>maybe some additional information</p>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="ui segment">
-                                <h3 class="ui header centered">How it Works</h3>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-
-            </div>
-            <div class="ui bottom attached tab segment" data-tab="second">
                 <form class="ui fluid form">
+                    
                     <div class="three wide fields">
 
                         <div class="field">
@@ -142,7 +165,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="ui divider"></div>
 
                     <div class="ui vertical animated button primary" tabindex="0" id="search">
@@ -154,10 +176,33 @@
                     <button class="ui button" id="ele">Election</button>
                     <button class="ui button" id="voter">Voter</button>
                     <button class="ui button" id="rep">Representative</button>
+                    <button class="ui button" id="can">Candidate</button>
                 </form>
                 <div class="ui divider"></div>
                 <!-- Search Results go here -->
                 <div id="results" class="ui grid container"></div>
+                
+
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="second">
+                <main class="container w">
+                    <div class="ui equal width grid">
+                        <div class="column">
+                            <div class="ui segment">
+                                <h3 class="ui header centered">Why it Matters</h3>
+                                <h5 class="ui centered">Nov 3, 2020 will go down in US history as a pivotal choice for the direction of the country</h5>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui segment">
+                                <h3 class="ui header centered">How it Works</h3>
+                                <h5 class="ui centered"> Click on image to get further details</h5>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+                    
 
             </div>
         </div>
