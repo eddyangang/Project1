@@ -2,10 +2,19 @@
 
 const proPublicaKey = "cstJcNuEEeCQtdH8yWkpXroGmKK4yuuAecgKC7GL";
 const civicKey = "AIzaSyBXX_LFscJIXrN_xa7JvFqda1GJXYE8L0Y";
+// const govKey = "RakPSGxOLxsSUX7uu8IbJWlKgiXkarqezricuYUB"
+const apikey = "6woKQBsiMzXTaqOFIAGiI2GSdgPTj31EzZIVDGnF";
+// var FECcandidateSearch = `https://api.open.fec.gov/v1/candidates/search/?sort_hide_null=false&cycle=2020&election_year=2020&sort_null_only=false&is_active_candidate=true&api_key=${govKey}&candidate_status=C&sort=name&office=H&page=1&sort_nulls_last=false&per_page=20`
+
+var url = `https://api.open.fec.gov/v1/candidates/search/?sort_hide_null=false&sort_null_only=false&api_key=${apikey}&page=1&incumbent_challenge=C&sort=name&per_page=20&sort_nulls_last=false&cycle=2020`
+
+
+
 // Version: {v1}. For congress parameters: {116}. 102-116 for House, 80-116 for Senate
 var proPublicaMembersURL = `https://api.propublica.org/congress/v1/116/senate/members.json`
 
 var proPublicaStatementsByMembers = `https://api.propublica.org/congress/v1/members/C001084/statements/115.json`
+var FECurl = `https://api.open.fec.gov/candidates/`
 
 var electionId = "2000";
 var address ="";
@@ -17,8 +26,36 @@ var voterURL = `https://www.googleapis.com/civicinfo/v2/voterinfo?key=${civicKey
 
 var representativesInfoByAddressURL = `https://www.googleapis.com/civicinfo/v2/representatives?key=${civicKey}&address=${address}`
 $(document).ready(function () {
+   
+    function search(arr) {
+        return arr.state === state;
+    }
+
+    $('#can').on("click", function (event) {
+        event.preventDefault()
+        $.ajax({
+            url: url,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+            // var results = response.results;
+            // console.log(results.filter(search));
+        })
+    })
 
 
+
+    // Joel's first attempt; wasn't working object object error
+// $('#can').on("click", function (event) {
+//     event.preventDefault()
+//     $.ajax({
+//         url: FECcandidateSearch,
+//         method: "GET"
+//     }).then(function (response) {
+//         console.log("candidate log here: " + response);
+        
+//     })
+// })
 
     // $('#btn').on("click", function () {y
     //     $.ajax({
@@ -205,3 +242,8 @@ $('#menu').on("click", function () {
 })
 $('.menu .item')
     .tab();
+
+    // click listenter to transistion the cube animation
+    $('.shape').on("click", function() {
+        $('.shape').shape('flip up');
+    })
