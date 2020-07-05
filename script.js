@@ -37,74 +37,58 @@ $('.menu .item').tab();
 
 
 $(document).ready(function () {
-   /*Work to get billing information when name is provided*/
+    /**
+     * 
+     * Work to get billing information when we get the id of the selected person name 
+     */
 
     // this method is used to handle ajax sucess when proPublicaMemberurl is called;
     function getBillInformationByMemberIdSuccess(response) {
+        console.log('getBillInformationByMemberIdSuccess');
         console.log(response);
-        var table = $('#billInformationTable');
-        table.append(`<tr>
-                    <th>
-                        Bill No
-                    </th>
-                    <th>
-                        Intorduced On
-                    </th>
-                <th>
-                    Title
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Commitee
-                </th>
-                <th>
-                    Sponsor
-                </th>
-                <th>
-                    Last Action
-                </th>
-                <th>
-                    Last Action Date
-                </th>
-                </tr>`);
+        //using dataTable jquery library
+
+        var dataSet = [];
 
         for (let i = 0; i < 20; i++) {
-            table.append(`
-            <tr>
-                <td>
-                    <a href='${response.results[0].bills[i].congressdotgov_url}'>${response.results[0].bills[i].number}</a>
-                </td>
-                <td>
-                    ${response.results[0].bills[i].introduced_date}
-                </td>
-                <td>
-                    ${response.results[0].bills[i].short_title}
-                </td>
-                <td>
-                    ${response.results[0].bills[i].title}
-                </td>
-                <td>
-                    ${response.results[0].bills[i].committees}
-                </td>
-                <td>
-                    ${response.results[0].bills[i].sponsor_name}
-                </td>
-                <td>
-                    ${response.results[0].bills[i].number}
-                </td>
-            </tr>`);
+            var arr = [];
+            arr.push(response.results[0].bills[i].introduced_date);
+            arr.push(response.results[0].bills[i].short_title);
+            arr.push(response.results[0].bills[i].title);
+            arr.push(response.results[0].bills[i].committees);
+            arr.push(response.results[0].bills[i].sponsor_name);
+            dataSet.push(arr);
         }
+
+        $('#billInformationTable').DataTable({
+            data: dataSet,
+            pageLength: 5,
+            lengthMenu: [5, 10, 25],
+            columns: [{
+                    title: "Introduced On",
+                    "width": "15%"
+                },
+                {
+                    title: "Title",
+                    "width": "20%"
+                },
+                {
+                    title: "Description",
+                    "width": "30%"
+                },
+                {
+                    title: "Commitee",
+                    "width": "20%"
+                },
+                {
+                    title: "Sponsor",
+                    "width": "15%"
+                }
+            ],
+        });
     };
 
-    // this method is used to handle ajax failure when proPublicaMemberurl is called;
-    function getBillInformationByMemberIdFailure(response) {
-        console.log(response);
-    };
-
-
-    function getBillInformationByMemberId(memberId) {
+      function getBillInformationByMemberId(memberId) {
         var proPublicaBillsByMembers = `https://api.propublica.org/congress/v1/members/${memberId}/bills/introduced.json`;
         $.ajax({
             url: proPublicaBillsByMembers,
@@ -113,11 +97,11 @@ $(document).ready(function () {
             headers: {
                 'X-API-Key': proPublicaKey
             }
-        }).then(getBillInformationByMemberIdSuccess, getBillInformationByMemberIdFailure);
+        }).then(getBillInformationByMemberIdSuccess);
 
     }
-
-    function getMemberIdByName(url,name,isSenate) {     
+//the purpose of this function is to be a placeholder for taking url of senate, name selected by the user, and condition for hasSearchForSenateCompleted
+    function getMemberIdByName(url, name, hasSearchForSenateCompleted) {
         $.ajax({
             url: url,
             method: "GET",
@@ -127,43 +111,50 @@ $(document).ready(function () {
             }
         }).then(function (response) {
             console.log(response);
-            proPublicMembersUrlSuccess(response, name,isSenate);
-        }, function (response) {
-            proPublicMembersUrlFailue(response, name);
+            //calling a function if successfully able to get the ajax response and giving the value response, name and hasSearchForSenateCompleted state 
+            proPublicMembersUrlSuccess(response, name, hasSearchForSenateCompleted);
         });
     }
-
-    function proPublicMembersUrlSuccess(response, name,isSenate) {
+//the purpose of this function is to search all the member of the senate /house
+// Since this is recursive function , we need base condition to exit from the function, so we used hasSearchForSenateCompleted condtion to exit from the function.
+// When true if will execute the first part and then will call for house the next time.
+// when false, it will execute the first part and will exit from function as condition at line number 135 is false.
+    function proPublicMembersUrlSuccess(response, name, hasSearchForSenateCompleted) {
         var len = response.results[0].members.length;
         var arr = response.results[0].members;
         console.log(arr);
-        for(var i = 0; i < len; i++)
-        {
+        //loop for comparing name of all members is the form of firstname, middlename, and lastname against the name provided
+        for (var i = 0; i < len; i++) {
             var memberName = arr[i].first_name;
-            if(arr[i].middle_name != null)
-            {
+            if (arr[i].middle_name != null) {
                 memberName = memberName + arr[i].middle_name;
             }
             memberName = memberName + arr[i].last_name;
+            // We need to elimatnate all the white space so that we can compare the name exactly format we consider is firstname middlename and lastname
             memberName = memberName.split(' ').join('');
-            if(name === memberName){
+            //comparing the name with member name and if matched get the billing information and exit else continue with next member
+            if (name === memberName) {
+                //calling functiont to get billing information with member id
                 getBillInformationByMemberId(arr[i].id);
+                //exiting out of the function as task is completed.
                 return;
             }
         }
-        if(isSenate)
-            getMemberIdByName(proPublicaMembersUrlForHouse,name,false); 
+        //Since member was not found in the senate we need to check the house members
+        if (hasSearchForSenateCompleted){
+            // calling the same function getMemberIdByName but this time by providing House url and senate equal to false
+            getMemberIdByName(proPublicaMembersUrlForHouse, name, false);
+        }
     };
 
-    function proPublicMembersUrlFailue(response, name) {
-        return '';
-    }
-
-    // Test Case when billing information is clicked
+    // //Test Case when billing information is clicked
     // $('#btn').on("click", function () {
-    //     var name = 'Jefferson Van Drew';
+    //        var name = 'Lamar Alexander';
+    // //We need to elimatnate all the white space so that we can compare the name exactly format we consider is firstname middlename and lastname
     //     name = name.split(' ').join('');
     //     console.log(name);
+    // /* here we are calling the function in which we are sending propublicamembersurlforsenateurl, name, and the condition for if senate is true*/
+    // //first we are checking for senate and then we have to check house members
     //     getMemberIdByName(proPublicaMembersUrlForSenate,name,true);        
     // })
 
@@ -172,6 +163,32 @@ $(document).ready(function () {
     }
 
 
+    // Joel's first attempt; wasn't working object object error
+    // $('#can').on("click", function (event) {
+    //     event.preventDefault()
+    //     $.ajax({
+    //         url: FECcandidateSearch,
+    //         method: "GET"
+    //     }).then(function (response) {
+    //         console.log("candidate log here: " + response);
+
+    //     })
+    // })
+
+    // $('#btn').on("click", function () {y
+    //     $.ajax({
+    //         url: proPublicaURL,
+    //         method: "GET",
+    //         dataType: 'json',
+    //         headers: {
+    //             'X-API-Key': propublicaKey
+    //         }
+    //     }).then(function (response) {
+
+    //         console.log(response);
+
+    //     })
+    // })
 
     $('#search').on("click", function () {
         $('#results').empty()
@@ -278,4 +295,16 @@ $(document).ready(function () {
             }
         })
     })
+})
+
+$('#menu').on("click", function () {
+    $('.ui.sidebar').sidebar('toggle');
+})
+
+$('.menu .item')
+    .tab();
+
+// click listenter to transistion the cube animation
+$('.shape').on("click", function () {
+    $('.shape').shape('flip up');
 })
