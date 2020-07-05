@@ -5,6 +5,7 @@ const civicKey = "AIzaSyBXX_LFscJIXrN_xa7JvFqda1GJXYE8L0Y";
 const apikey = "6woKQBsiMzXTaqOFIAGiI2GSdgPTj31EzZIVDGnF";
 const proPublicaMembersUrlForSenate = 'https://api.propublica.org/congress/v1/116/senate/members.json';
 const proPublicaMembersUrlForHouse = 'https://api.propublica.org/congress/v1/116/house/members.json';
+
 // var FECcandidateSearch = `https://api.open.fec.gov/v1/candidates/search/?sort_hide_null=false&cycle=2020&election_year=2020&sort_null_only=false&is_active_candidate=true&api_key=${govKey}&candidate_status=C&sort=name&office=H&page=1&sort_nulls_last=false&per_page=20`
 
 var url = `https://api.open.fec.gov/v1/candidates/search/?sort_hide_null=false&sort_null_only=false&api_key=${apikey}&page=1&incumbent_challenge=C&sort=name&per_page=20&sort_nulls_last=false&cycle=2020`
@@ -211,9 +212,9 @@ $(document).ready(function () {
                             </div>
                             <div class="backcard">
                                 <h3></h3>
-                            </div>
-                        </div>
-                    </div>`)
+                            < /div> <
+                            /div> <
+                            /div>`)
 
                 /* To add media icons:
                 <a><i class="twitter icon"></i></a>
