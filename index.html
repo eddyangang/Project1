@@ -10,10 +10,13 @@
     <!--Data table link-->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.semanticui.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <!--link for semantin ui for dataTable -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js">
     <link rel="stylesheet" href="style.css">
+
     <title>Udecide</title>
 </head>
 
@@ -44,28 +47,6 @@
 
                 <img src="assets/politicalBird.png" class="ui tiny circular image centered bordered" alt="">
             </div>
-
-            <!-- <div class="ui text shape ">
-                <div class="sides">
-                    <div class="ui header side active">We provide a single pane of glass for voters to find their four
-                        Federal reprentatives (President, two Senators, and one House member).</div>
-
-                    <div class="ui header side">Nov 3, 2020 will go down in US history as a pivotal choice for the
-                        direction of the country. Do you know who you're choosing between? We can tell you!</div>
-
-                    <div class="ui header side"><em>“Whenever the people are well informed, they can be trusted with
-                            their own government.”</em>
-                        - Thomas Jefferson
-                    </div>
-
-                    <div class="ui header side">More then just the Presidency is decided on Nov 3, 2020. Thirty five
-                        Senators will be choosen. Along with 435 Representatives!</div>
-
-                    <div class="ui header side">Each branch determines if your values are represented within the
-                        government. Hold these people accountable!</div>
-                </div>
-            </div> -->
-
 
             <div class="ui segment">
                 <div class="ui cube shape ">
@@ -116,8 +97,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <!-- Site content !-->
             <div class="ui top attached tabular menu">
@@ -205,17 +184,21 @@
                             <i class="search icon"></i>
                         </div>
                     </div>
-                    <button class="ui button" id="ele">Election</button>
-                    <button class="ui button" id="voter">Voter</button>
-                    <button class="ui button" id="rep">Representative</button>
-                    <button class="ui button" id="can">Candidate</button>
-                    <div class="ui button" id="btn">Bill Information</div>
+
                 </form>
                 <div class="ui divider"></div>
                 <!-- Search Results go here -->
                 <div id="results" class="ui grid container"></div>
+                <div class="ui divider"></div>
+
                 <table id="billInformationTable" class="ui striped inverted grey celled table">
+
                 </table>
+                <div class="ui segment" id="loader" style="display: none;">
+                    <div class="ui inverted dimmer">
+                        <div class="ui text loader">Loading</div>
+                    </div>
+                </div>
 
             </div>
 
