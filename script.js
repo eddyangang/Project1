@@ -35,6 +35,12 @@ $('#menu').on("click", function () {
 
 $('.menu .item').tab();
 
+// click listenter to transistion the cube animation
+$('.shape').on("click", function () {
+    $('.shape').shape('flip up');
+})
+
+
 
 $(document).ready(function () {
     /**
@@ -297,14 +303,3 @@ $(document).ready(function () {
     })
 })
 
-$('#menu').on("click", function () {
-    $('.ui.sidebar').sidebar('toggle');
-})
-
-$('.menu .item')
-    .tab();
-
-// click listenter to transistion the cube animation
-$('.shape').on("click", function () {
-    $('.shape').shape('flip up');
-})
