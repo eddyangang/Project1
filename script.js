@@ -1,5 +1,4 @@
 /* */
-
 const proPublicaKey = "cstJcNuEEeCQtdH8yWkpXroGmKK4yuuAecgKC7GL";
 const civicKey = "AIzaSyBXX_LFscJIXrN_xa7JvFqda1GJXYE8L0Y";
 // const govKey = "RakPSGxOLxsSUX7uu8IbJWlKgiXkarqezricuYUB"
@@ -26,11 +25,18 @@ var electionURL = `https://www.googleapis.com/civicinfo/v2/elections?key=${civic
 var voterURL = `https://www.googleapis.com/civicinfo/v2/voterinfo?key=${civicKey}&address=${address}&electionId=${electionId}&returnAllAvailableData=true`
 
 var representativesInfoByAddressURL = `https://www.googleapis.com/civicinfo/v2/representatives?key=${civicKey}&address=${address}`
+
+var rotate = setInterval(() => $('.shape').shape('flip up'), 3000);
+
+$('#menu').on("click", function () {
+    $('.ui.sidebar').sidebar('toggle');
+})
+
+$('.menu .item').tab();
+
+
 $(document).ready(function () {
-   /**
-    * 
-    * Work to get billing information when name is provided
-    */
+   /*Work to get billing information when name is provided*/
 
     // this method is used to handle ajax sucess when proPublicaMemberurl is called;
     function getBillInformationByMemberIdSuccess(response) {
@@ -64,29 +70,30 @@ $(document).ready(function () {
                 </tr>`);
 
         for (let i = 0; i < 20; i++) {
-            table.append(`<tr>
-                    <td>
-                        <a href='${response.results[0].bills[i].congressdotgov_url}'>${response.results[0].bills[i].number}</a>
-                    </td>
-                    <td>
+            table.append(`
+            <tr>
+                <td>
+                    <a href='${response.results[0].bills[i].congressdotgov_url}'>${response.results[0].bills[i].number}</a>
+                </td>
+                <td>
                     ${response.results[0].bills[i].introduced_date}
-                    </td>
-                <td>
-                ${response.results[0].bills[i].short_title}
                 </td>
                 <td>
-                ${response.results[0].bills[i].title}
+                    ${response.results[0].bills[i].short_title}
                 </td>
                 <td>
-                ${response.results[0].bills[i].committees}
+                    ${response.results[0].bills[i].title}
                 </td>
                 <td>
-                ${response.results[0].bills[i].sponsor_name}
+                    ${response.results[0].bills[i].committees}
                 </td>
                 <td>
-                ${response.results[0].bills[i].number}
+                    ${response.results[0].bills[i].sponsor_name}
                 </td>
-                </tr>`);
+                <td>
+                    ${response.results[0].bills[i].number}
+                </td>
+            </tr>`);
         }
     };
 
@@ -163,49 +170,8 @@ $(document).ready(function () {
         return arr.state === state;
     }
 
-    $('#can').on("click", function (event) {
-        event.preventDefault()
-        $.ajax({
-            url: url,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-            // var results = response.results;
-            // console.log(results.filter(search));
-        })
-    })
 
 
-
-    // Joel's first attempt; wasn't working object object error
-// $('#can').on("click", function (event) {
-//     event.preventDefault()
-//     $.ajax({
-//         url: FECcandidateSearch,
-//         method: "GET"
-//     }).then(function (response) {
-//         console.log("candidate log here: " + response);
-        
-//     })
-// })
-
-    // $('#btn').on("click", function () {y
-    //     $.ajax({
-    //         url: proPublicaURL,
-    //         method: "GET",
-    //         dataType: 'json',
-    //         headers: {
-    //             'X-API-Key': propublicaKey
-    //         }
-    //     }).then(function (response) {
-
-    //         console.log(response);
-
-    //     })
-    // })
-
-var rotate = setInterval(() => $('.shape').shape('flip up'), 3000)
-$(document).ready(function () {
     $('#search').on("click", function () {
         $('#results').empty()
         var state = $('#state').val();
@@ -280,64 +246,6 @@ $(document).ready(function () {
         })
     })
 
-    $('#voter').on("click", function (e) {
-        e.preventDefault()
-        $.ajax({
-            url: voterURL,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-            $('#officials').empty()
-            var contests = response.contests;
-
-            for (let i = 0; i < contests.length; i++) {
-
-                var office = contests[i].office;
-
-                var candidates = contests[i].candidates;
-
-                var id = office.replace(/\s+/g, '');
-
-                $('#officials').append(`
-                <div id ="${id}" class="row">
-                <h1>${office}</h1> 
-                </div>`)
-
-                for (let j = 0; j < candidates.length; j++) {
-
-
-                    var name = candidates[j].name
-                    var party = candidates[j].party
-                    // var url = candidates[i].candidateUrl;
-                    // console.log(url);
-
-                    var candId = name.replace(/\s+/g, '')
-
-                    var card = (`<div id="${candId}">
-                        <h3></h3>
-                        <h4></h4>
-                        </div>`)
-
-
-                    $(`#${id}`).append(card)
-
-                    $(`#${candId}>h3`).text(name)
-                    $(`#${candId}>h4`).text(party)
-
-                }
-            }
-        })
-    })
-    $('#ele').on("click", function (e) {
-        e.preventDefault()
-        $.ajax({
-            url: electionURL,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-
-        })
-    })
     $('#rep').on("click", function (e) {
         e.preventDefault()
         $.ajax({
@@ -370,8 +278,3 @@ $(document).ready(function () {
         })
     })
 })
-
-$('#menu').on("click", function () {
-    $('.ui.sidebar').sidebar('toggle');
-})
-$('.menu .item').tab();
