@@ -7,13 +7,16 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <!--Data table link-->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.semanticui.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <!--link for semantin ui for dataTable -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js">
     <link rel="stylesheet" href="style.css">
+
     <title>Udecide</title>
 </head>
 
@@ -44,52 +47,56 @@
 
                 <img src="assets/politicalBird.png" class="ui tiny circular image centered bordered" alt="">
             </div>
-            <div class="eight wide column">
-                <div class="ui segment">
-                    <div class="ui cube shape"> 
-                        <div class="sides">
-                          <div class="side" style="background-color: lavender">
-                            <div class="content">
-                              <div class="center">
-                                <h6>Nov 3, 2020 will go down in US history as a pivotal choice for the direction of the country. Do you know who you're choosing between? We can tell you!
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div class="side" style="background-color: lavender">
-                            <div class="content">
-                              <div class="center">
-                                <h6>“Whenever the people are well informed, they can be trusted with their own government.” 
-                                </h6>
-                                <h4>- Thomas Jefferson</h4>
 
-                              </div>
-                            </div>
-                          </div>
-                          <div class="side" style="background-color: lavender">
+            <div class="ui segment">
+                <div class="ui cube shape ">
+                    <div class="sides">
+                        <div class="side">
                             <div class="content">
-                              <div class="center">
-                                <h6>More then just the Presidency is decided on Nov 3, 2020. Thirty five Senators will be choosen. Along with 435 Representatives! <br> <br>Each branch determines if your values are represented within the government. Hold these people accountable! </h6>
-                                
-                                
-                              </div>
+                                <div>
+                                    <h6 class="ui header">Nov 3, 2020 will go down in US history as a pivotal choice for
+                                        the direction of the country. Do you know who you're choosing between? We can
+                                        tell you!
+                                    </h6>
+                                </div>
                             </div>
-                          </div>
-                          <div class="side active" style="background-color: lavender">
-                            <div class="content">
-                              <div class="center">
-                                <h6>We provide a single pane of glass for voters to find their four Federal reprentatives (President, two Senators, and one House member). Click here for more background information.
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
-                          
                         </div>
-                      </div>
+
+                        <div class="side ">
+                            <div class="content">
+                                <div>
+                                    <h6 class="ui header">More then just the Presidency is decided on Nov 3, 2020.
+                                        Thirty five Senators will be choosen. Along with 435 Representatives! Each
+                                        branch determines if your values are represented within the government. Hold
+                                        these people accountable!</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="side ">
+                            <div class="content">
+                                <div>
+                                    <h1 class=" ui header">“Whenever the people are well informed, they can be
+                                        trusted with their own government.”
+                                    </h1>
+                                    <h6 class="ui header">- Thomas Jefferson</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="side active">
+                            <div class="content">
+                                <div>
+                                    <h6 class="ui header">We provide a single pane of glass for voters to find their
+                                        four Federal reprentatives (President, two Senators, and one House member).
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-            
 
             <!-- Site content !-->
             <div class="ui top attached tabular menu">
@@ -99,7 +106,7 @@
             <div class="ui bottom attached tab segment active" data-tab="first">
 
                 <form class="ui fluid form">
-                    
+
                     <div class="three wide fields">
 
                         <div class="field">
@@ -177,26 +184,32 @@
                             <i class="search icon"></i>
                         </div>
                     </div>
-                    <button class="ui button" id="ele">Election</button>
-                    <button class="ui button" id="voter">Voter</button>
-                    <button class="ui button" id="rep">Representative</button>
-                    <button class="ui button" id="can">Candidate</button>
-                    <div class="ui button" id="btn">Bill Information</div>
+
                 </form>
                 <div class="ui divider"></div>
                 <!-- Search Results go here -->
                 <div id="results" class="ui grid container"></div>
-                <table id="billInformationTable" class="ui striped inverted grey celled table">                    
+                <div class="ui divider"></div>
+
+                <table id="billInformationTable" class="ui striped inverted grey celled table">
+
                 </table>
+                <div class="ui segment" id="loader" style="display: none;">
+                    <div class="ui inverted dimmer">
+                        <div class="ui text loader">Loading</div>
+                    </div>
+                </div>
 
             </div>
+
             <div class="ui bottom attached tab segment" data-tab="second">
-                <main class="container w">
+                <main class="container">
                     <div class="ui equal width grid">
                         <div class="column">
                             <div class="ui segment">
                                 <h3 class="ui header centered">Why it Matters</h3>
-                                <h5 class="ui centered">Nov 3, 2020 will go down in US history as a pivotal choice for the direction of the country</h5>
+                                <h5 class="ui centered">Nov 3, 2020 will go down in US history as a pivotal choice for
+                                    the direction of the country</h5>
                             </div>
                         </div>
                         <div class="column">
@@ -208,7 +221,7 @@
                     </div>
                 </main>
 
-                    
+
 
             </div>
         </div>
