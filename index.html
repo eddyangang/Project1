@@ -22,24 +22,6 @@
 
 <body>
 
-    <div class="ui left vertical inverted  sidebar labeled icon menu">
-        <a class="item">
-            <i class="home icon"></i>
-            Home
-        </a>
-        <a class="item">
-            <i class="block layout icon"></i>
-            Topics
-        </a>
-        <a class="item">
-            <i class="users icon"></i>
-            Contact
-        </a>
-    </div>
-    <button class="ui inverted primary button " id="menu">
-        <i class="bars icon"></i>
-        Menu
-    </button>
     <div class=" ui grid centered">
         <div class="pusher twelve wide column">
 
@@ -48,7 +30,7 @@
                 <img src="assets/politicalBird.png" class="ui tiny circular image centered bordered" alt="">
             </div>
 
-            <div class="ui segment">
+            <!-- <div class="ui segment">
                 <div class="ui cube shape ">
                     <div class="sides">
                         <div class="side">
@@ -96,7 +78,7 @@
 
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Site content !-->
             <div class="ui top attached tabular menu">
@@ -109,18 +91,18 @@
 
                     <div class="three wide fields">
 
-                        <div class="field">
+                        <div class="field" id="address">
                             <label>Address</label>
-                            <input type="text" placeholder="Address" id="address">
+                            <input type="text" placeholder="Address" required>
                         </div>
-                        <div class="field">
+                        <div class="field"  id="zip">
                             <label>Zip Code</label>
-                            <input type="text" placeholder="zip code" id="zip">
+                            <input type="text" placeholder="Zip code" required>
                         </div>
 
-                        <div class="field">
+                        <div class="field"  id="state">
                             <label>State</label>
-                            <select class="ui fluid dropdown" id="state">
+                            <select class="ui fluid dropdown" required>
                                 <option value="">State</option>
                                 <option value="AL">Alabama</option>
                                 <option value="AK">Alaska</option>
@@ -191,7 +173,7 @@
                 <div id="results" class="ui grid container"></div>
                 <div class="ui divider"></div>
 
-                <table id="billInformationTable" class="ui striped inverted grey celled table">
+                <table id="billInformationTable" class="ui striped inverted grey celled table" style="width: 100%;">
 
                 </table>
                 <div class="ui segment" id="loader" style="display: none;">
