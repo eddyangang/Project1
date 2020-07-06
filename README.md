@@ -14,7 +14,14 @@ Once the user has been introduced to their representative, then we dynamically d
 
 
 ### Technologies used
-We used UI Semantic for the CSS framework in order to provide a clean user interface and to display member information using cards. We also used AJAX API call to consume open Google Civic API and ProPublica to get member bill sponsorship.
+- HTML
+- CSS
+- Semantic UI
+- Javascript
+- JQuery
+- Datatables Library
+- Google Civic API
+- proPublica API
 
 #### Code Strategy
 
