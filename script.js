@@ -50,31 +50,11 @@ $('#menu').on("click", function () {
 $('.menu .item').tab();
 
 $(document).ready(function () {
-    /**
-     * 
-     * Work to get billing information when we get the id of the selected person name 
-     */
-
-    // this method is used to handle ajax sucess when proPublicaMemberurl is called;
-    function getBillInformationByMemberIdSuccess(response) {
-        console.log('getBillInformationByMemberIdSuccess');
-        console.log(response);
-        //using dataTable jquery library
-
-        var dataSet = [];
-
-        for (let i = 0; i < 20; i++) {
-            var arr = [];
-            arr.push(response.results[0].bills[i].introduced_date);
-            arr.push(response.results[0].bills[i].short_title);
-            arr.push(response.results[0].bills[i].title);
-            arr.push(response.results[0].bills[i].committees);
-            arr.push(response.results[0].bills[i].sponsor_name);
-            dataSet.push(arr);
-        }
-
-        $('#billInformationTable').DataTable({
-            data: dataSet,
+    function initlizeDataTable()
+    {
+        //this hide helps in not showing the earlier selected candidate detail while data is loading from Ajax call
+        $("#billInformation").hide();
+        $("#billInformationTable").DataTable({
             pageLength: 5,
             lengthMenu: [5, 10, 25],
             columns: [{
@@ -97,12 +77,47 @@ $(document).ready(function () {
                     title: "Sponsor",
                     "width": "15%"
                 }
-            ],
+            ],                          
         });
+    }
+
+    initlizeDataTable();
+    
+    /**
+     * 
+     * Work to get billing information when we get the id of the selected person name 
+     */
+
+    // this method is used to handle ajax sucess when proPublicaMemberurl is called;
+    function getBillInformationByMemberIdSuccess(response) {
+        console.log('getBillInformationByMemberIdSuccess');
+        console.log(response);
+       
+        //using dataTable jquery library
+        var dataSet = [];
+
+        for (let i = 0; i < 20; i++) {
+            var arr = [];
+            arr.push(response.results[0].bills[i].introduced_date);
+            arr.push(response.results[0].bills[i].short_title);
+            arr.push(response.results[0].bills[i].title);
+            arr.push(response.results[0].bills[i].committees);
+            arr.push(response.results[0].bills[i].sponsor_name);
+            dataSet.push(arr);
+            
+        }        
+
+        $("#billInformationTable").DataTable()
+            .rows.add(dataSet)
+            .draw();
+
+        $("#billInformation").show();
 
         $('#loader').css("display", "none")
         $('.ui.inverted.dimmer').removeClass("active");
+       
     };
+    
 
     function getBillInformationByMemberId(memberId) {
         var proPublicaBillsByMembers = `https://api.propublica.org/congress/v1/members/${memberId}/bills/introduced.json`;
@@ -167,6 +182,8 @@ $(document).ready(function () {
     $('#search').on("click", function () {
         // clear previous search
         $('#results').empty()
+        $("#billInformation").hide();
+        $("#billInformationTable").DataTable().clear() ;
 
         // get information from input
         var state = $('#state').val();
@@ -243,9 +260,9 @@ $(document).ready(function () {
 
     // add event listener for each rep to recieve theit bill information.
     $(document).on("click", ".ui.basic.button", function () {
-        // clear last input ...  currently a bug
-        $('#billInformationTable').empty();
-
+      
+        $("#billInformation").hide();
+        $("#billInformationTable").DataTable().clear();
         // used to retrieve the name of the selected rep.
         var cardContainer = $(this).closest(".ui.centered").children(".card-flip-container")
         var frontcard = cardContainer.children(".card-flip").children(".frontcard")
