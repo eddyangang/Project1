@@ -50,11 +50,140 @@ $('#menu').on("click", function () {
 $('.menu .item').tab();
 
 $(document).ready(function () {
+    function initlizeDataTable()
+    {
+        //this hide helps in not showing the earlier selected candidate detail while data is loading from Ajax call
+        $("#billInformation").hide();
+        $("#billInformationTable").DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25],
+            columns: [{
+                    title: "Introduced On",
+                    "width": "15%"
+                },
+                {
+                    title: "Title",
+                    "width": "20%"
+                },
+                {
+                    title: "Description",
+                    "width": "30%"
+                },
+                {
+                    title: "Commitee",
+                    "width": "20%"
+                },
+                {
+                    title: "Sponsor",
+                    "width": "15%"
+                }
+            ],                          
+        });
+    }
+
+    initlizeDataTable();
+    
+    /**
+     * 
+     * Work to get billing information when we get the id of the selected person name 
+     */
+
+    // this method is used to handle ajax sucess when proPublicaMemberurl is called;
+    function getBillInformationByMemberIdSuccess(response) {
+        console.log('getBillInformationByMemberIdSuccess');
+        console.log(response);
+       
+        //using dataTable jquery library
+        var dataSet = [];
+
+        for (let i = 0; i < 20; i++) {
+            var arr = [];
+            arr.push(response.results[0].bills[i].introduced_date);
+            arr.push(response.results[0].bills[i].short_title);
+            arr.push(response.results[0].bills[i].title);
+            arr.push(response.results[0].bills[i].committees);
+            arr.push(response.results[0].bills[i].sponsor_name);
+            dataSet.push(arr);
+            
+        }        
+
+        $("#billInformationTable").DataTable()
+            .rows.add(dataSet)
+            .draw();
+
+        $("#billInformation").show();
+
+        $('#loader').css("display", "none")
+        $('.ui.inverted.dimmer').removeClass("active");
+       
+    };
+    
+
+    function getBillInformationByMemberId(memberId) {
+        var proPublicaBillsByMembers = `https://api.propublica.org/congress/v1/members/${memberId}/bills/introduced.json`;
+        $.ajax({
+            url: proPublicaBillsByMembers,
+            method: "GET",
+            dataType: 'json',
+            headers: {
+                'X-API-Key': proPublicaKey
+            }
+        }).then(getBillInformationByMemberIdSuccess);
+
+    }
+    //the purpose of this function is to be a placeholder for taking url of senate, name selected by the user, and condition for hasSearchForSenateCompleted
+    function getMemberIdByName(url, name, hasSearchForSenateCompleted) {
+        $.ajax({
+            url: url,
+            method: "GET",
+            dataType: 'json',
+            headers: {
+                'X-API-Key': proPublicaKey
+            }
+        }).then(function (response) {
+            console.log(response);
+            //calling a function if successfully able to get the ajax response and giving the value response, name and hasSearchForSenateCompleted state 
+            proPublicMembersUrlSuccess(response, name, hasSearchForSenateCompleted);
+        });
+    }
+    //the purpose of this function is to search all the member of the senate /house
+    // Since this is recursive function , we need base condition to exit from the function, so we used hasSearchForSenateCompleted condtion to exit from the function.
+    // When true if will execute the first part and then will call for house the next time.
+    // when false, it will execute the first part and will exit from function as condition at line number 135 is false.
+    function proPublicMembersUrlSuccess(response, name, hasSearchForSenateCompleted) {
+        var len = response.results[0].members.length;
+        var arr = response.results[0].members;
+        console.log(arr);
+        //loop for comparing name of all members is the form of firstname, middlename, and lastname against the name provided
+        for (var i = 0; i < len; i++) {
+            var memberName = arr[i].first_name;
+            if (arr[i].middle_name != null) {
+                memberName = memberName + arr[i].middle_name;
+            }
+            memberName = memberName + arr[i].last_name;
+            // We need to elimatnate all the white space so that we can compare the name exactly format we consider is firstname middlename and lastname
+            memberName = memberName.split(' ').join('');
+            //comparing the name with member name and if matched get the billing information and exit else continue with next member
+            if (name === memberName) {
+                //calling functiont to get billing information with member id
+                getBillInformationByMemberId(arr[i].id);
+                //exiting out of the function as task is completed.
+                return;
+            }
+        }
+        //Since member was not found in the senate we need to check the house members
+        if (hasSearchForSenateCompleted) {
+            // calling the same function getMemberIdByName but this time by providing House url and senate equal to false
+            getMemberIdByName(proPublicaMembersUrlForHouse, name, false);
+        }
+    };
 
     // When search button is clicked, populate the page with representatives and their information
     $('#search').on("click", function () {
         // clear previous search
         $('#results').empty()
+        $("#billInformation").hide();
+        $("#billInformationTable").DataTable().clear() ;
 
         // get information from input
         var state = $('select').val();
@@ -85,8 +214,9 @@ $(document).ready(function () {
 
     // add event listener for each rep to recieve theit bill information.
     $(document).on("click", ".ui.basic.button", function () {
-        // clear last input ...  currently a bug;
-
+      
+        $("#billInformation").hide();
+        $("#billInformationTable").DataTable().clear();
         // used to retrieve the name of the selected rep.
         var name = $(this).attr("data-name");
 
