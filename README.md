@@ -37,6 +37,12 @@ jQuery timer
 //set interval to rotate cube display.
 var rotate = setInterval(() => $('.shape').shape('flip up'), 3000);
 ```
+For Adding datas to rows
+```
+$("#billInformationTable").DataTable()
+            .rows.add(dataSet)
+            .draw();
+```
 We also experimented with using the APIs to consume the appropriate data we were seeking:
 
 ```
